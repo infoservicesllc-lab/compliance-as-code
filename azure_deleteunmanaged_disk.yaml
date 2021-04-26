@@ -1,0 +1,9 @@
+policies:
+  - name: unmanaged-disk
+    resource: azure.disk
+    filters:
+      - type: value
+        key: managedBy
+        value: null
+    actions:
+      - type: delete

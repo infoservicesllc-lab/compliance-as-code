@@ -1,0 +1,13 @@
+policies:
+   - name: delete-unencrypted-ebs
+     description: |
+       Delete all unencrypted EBS volumes upon creation
+     resource: ebs
+     mode:
+       type: cloudtrail
+       events:
+         - CreateVolume
+     filters:
+       - Encrypted: false
+     actions:
+       - delete

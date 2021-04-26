@@ -1,0 +1,25 @@
+policies:
+  - name: vpc-flow-log-check
+    resource: vpc
+    filters:
+      - not:
+           - type: flow-logs
+             enabled: true
+             set-op: or
+             op: equal
+             traffic-type: all
+             log-group: infoservices-VPCFlowLogs
+             status: active
+    actions:
+      - type: notify
+        template: default.html
+        priority_header: 1
+        subject: "VPC Flow Log(s) Not Setup Properly"
+        violation_desc: "The Following Flow Logs Are Invalid:"
+        action_desc: "Actions Taken:  Notification Only"
+        to:
+           - blah-support@infoservicesllc.com
+        transport:
+           type: sqs
+           queue: https://sqs.us-east-1.amazonaws.com/99999999999/info-services-mailer
+           region: us-east-1
